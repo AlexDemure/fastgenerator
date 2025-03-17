@@ -1,31 +1,3 @@
-<p align="center">
-  <a href="https://github.com/AlexDemure/fastgenerator">
-    <a href="https://ibb.co/TBZ0V6N6"><img src="https://i.ibb.co/N6XN85G5/fastgenerator.png" alt="fastgenerator" border="0" /></a>
-  </a>
-</p>
-
-<p align="center">
-  CLI-утилита для кодогенерации на основе YAML-файла.
-</p>
-
----
-
-### Установка
-```pip install fastgenerator```
-
-### Использование
-Основные команды
-1. Создание структуры проекта:
-
-```fastgenerator create app -f {файл-конфигурация.yaml}```
-
-2. Добавление модуля в проект:
-
-```fastgenerator add module {название модуля} -f {файл-конфигурация.yaml}```
-
-### Примеры кодогенерации на основе yaml-файлов
-```templates/example.yaml``` 
-```
 app:
   tree:
     src: {}
@@ -116,6 +88,7 @@ app:
             production = auto()
   
   
+        # INCLUDE SETTINGS
         configs = []
   
   
@@ -145,7 +118,15 @@ app:
     - path: "format.sh"
       content: |
         ruff format src/ --no-cache
-
+  uv:
+    main:
+      - fastapi
+      - uvicorn
+      - pydantic
+      - pydantic-settings
+      - python-multipart
+    lints:
+      - ruff
 module:
   files:
     - path: "src/endpoints.py"
@@ -157,15 +138,3 @@ module:
         )
         async def get_${snake}(${snake}_id: int = Path(..., ge=1, alias="id")) -> dict:
             return dict(id=${snake}_id)
-
-uv:
-  main:
-    - fastapi
-    - uvicorn
-    - pydantic
-    - pydantic-settings
-    - python-multipart
-  lints:
-    - ruff
-```
-```templates/application.yaml``` - Более комплексная конфигурация на стеке FastAPI, SQLAlchemy, Pydantic, Alembic, PostgreSQL, Isort, Ruff, Pytest
