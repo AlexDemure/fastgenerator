@@ -12,7 +12,7 @@ from .utils import variations
 
 class Module:
     @classmethod
-    def create(cls, path: Path, name: str) -> None:
+    def add(cls, path: Path, name: str) -> None:
         cwd = Path.cwd()
 
         config = Config.loadfile(path)

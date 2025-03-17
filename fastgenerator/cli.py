@@ -1,10 +1,12 @@
 import typer
 
-from .create import app as create_app
+from .add import add
+from .create import create
 
 app = typer.Typer(help="Generator")
 
-app.add_typer(create_app, name="create")
+app.add_typer(create, name="create")
+app.add_typer(add, name="add")
 
 if __name__ == "__main__":
     app()
