@@ -48,9 +48,13 @@ Example configuration file:
 
 ```toml
 [[files]]
-path = "src/endpoints/http/openapi/{{name.snake}}/__init__.py"
+path = "{{name}}.py"
 content = """
-print("Hello, {{name}}!")
+def hello():
+    print("Hello", {{name}})
+
+if __name__ == '__main__':
+    hello()
 """
 ```
 
