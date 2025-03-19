@@ -1,0 +1,8 @@
+ENCODING = "utf-8"
+READ = "r"
+READ_BINARY = "rb"
+WRITE = "w"
+WRITE_BINARY = "wb"
+APPEND = "a"
+INIT = "__init__.py"
+TOML = ".toml"

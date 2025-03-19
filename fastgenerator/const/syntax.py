@@ -1,0 +1,7 @@
+WORKDIR = "workdir"
+FOLDERS = "folders"
+FILES = "files"
+EXCLUDE = "exclude"
+FILE_PATH = "path"
+FILE_CONTENT = "content"
+FILE_MODE = "mode"
