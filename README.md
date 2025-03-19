@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/AlexDemure/fastgenerator">
-    <a href="https://ibb.co/23v8Qx04"><img src="https://i.ibb.co/23v8Qx04/Frame-1349.png" alt="FastGenerator Logo" border="0"></a>
+    <a href="https://ibb.co/23v8Qx04"><img src="https://i.ibb.co/fdk85fVw/Frame-1349.png" alt="Frame-1349" border="0" /></a>
   </a>
 </p>
 
