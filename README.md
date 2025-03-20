@@ -28,17 +28,17 @@ fastgenerator -f {config-file.toml}
 
 ## Configuration File Guide
 
-| Section   | Format                      | Description                                                                |
-|-----------|-----------------------------|----------------------------------------------------------------------------|
-| `workdir` | `""`                        | Uses the current directory                                                |
-|           | `"myproject"`                | Uses the current directory + `/myproject`                                 |
-|           | `"/home/myproject"`          | Uses an absolute path                                                     |
-| `exclude` | `["src/static/__init__.py"]` | Uses a relative path to `workdir`. Excludes file creation.                 |
-| `folders` | `["src/", "src/static"]`     | Uses a relative path to `workdir`. Describes directories to be created.   |
-| `[[files]]` |                             | Defines file creation rules                                               |
-|           | `mode = "a"`                 | File writing mode: `"a"` (append), `"w"` (overwrite)                      |
-|           | `path = "src/__init__.py"`   | Uses a relative path to `workdir`. File location                          |
-|           | `content = """ ... """`      | File content                                                              |
+| Section   | Format                      | Description                                                             |
+|-----------|-----------------------------|-------------------------------------------------------------------------|
+| `workdir` | `""`                        | Uses the current directory                                              |
+|           | `"myproject"`                | Uses the current directory + `/myproject`                               |
+|           | `"/home/myproject"`          | Uses an absolute path                                                   |
+| `exclude` | `["src/static/__init__.py"]` | Uses a relative path to `workdir`. Excludes file creation.              |
+| `folders` | `["src/", "src/static"]`     | Uses a relative path to `workdir`. Describes directories to be created. |
+| `[[files]]` |                             | Defines file creation rules                                             |
+|           | `mode = "a"`                 | File writing mode: `"a"` (append), `"w"` (overwrite)                    |
+|           | `path = "src/__init__.py"`   | Uses a relative path to `workdir`. File location                        |
+|           | `content = """ ... """`      | File content. Raw code, File from os, File from network                |
 
 ---
 
@@ -56,6 +56,14 @@ def hello():
 if __name__ == '__main__':
     hello()
 """
+
+[[files]]
+path = "{{name}}.py"
+content = "/home/main.py"
+
+[[files]]
+path = "{{name}}.py"
+content = "https://raw.download/main.py"
 ```
 
 When the generator runs, it will automatically detect all variables (e.g., `{{name}}`) and prompt the user to input values.

@@ -1,11 +1,12 @@
 import re
 
-from fastgenerator.const import regexp
-from fastgenerator.const import symbols
+import tomli
+
+from fastgenerator import const
 
 
 def separate(value: str) -> list[str]:
-    return re.split(regexp.SEPARATOR_PATTERN, value)
+    return re.split(const.REGEXP_SEPARATOR_PATTERN, value)
 
 
 def concat(words: list[str], symbol: str) -> str:
@@ -25,19 +26,19 @@ def to_capitalize(value: str) -> str:
 
 
 def to_title(value: str) -> str:
-    return concat(words=[to_capitalize(word) for word in separate(value)], symbol=symbols.WHITESPACE)
+    return concat(words=[to_capitalize(word) for word in separate(value)], symbol=const.SYMBOL_WHITESPACE)
 
 
 def to_snake(value: str) -> str:
-    return concat(separate(value), symbol=symbols.LOWER_HYPHEN).lower()
+    return concat(separate(value), symbol=const.SYMBOL_LOWER_HYPHEN).lower()
 
 
 def to_kebab(value: str) -> str:
-    return concat(separate(value), symbol=symbols.HYPHEN).lower()
+    return concat(separate(value), symbol=const.SYMBOL_HYPHEN).lower()
 
 
 def to_pascal(value: str) -> str:
-    return concat(words=[to_capitalize(word) for word in separate(value)], symbol=symbols.EMPTY)
+    return concat(words=[to_capitalize(word) for word in separate(value)], symbol=const.SYMBOL_EMPTY)
 
 
 def to_cases(value: str) -> dict:
@@ -52,8 +53,12 @@ def to_cases(value: str) -> dict:
     }
 
 
+def to_toml(content: str) -> dict:
+    return tomli.loads(content)
+
+
 def sortimports(lines: list[str]) -> str:
     imports, code = [], []
     for line in lines:
-        (imports if re.match(regexp.IMPORT_PATTERN, line) else code).append(line)
+        (imports if re.match(const.REGEXP_IMPORT_PATTERN, line) else code).append(line)
     return "".join(sorted(imports) + code)

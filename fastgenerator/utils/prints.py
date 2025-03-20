@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from fastgenerator.const import symbols
+from fastgenerator import const
 
 
 def prettytree(workdir: Path, new: set[Path], modified: set[Path]) -> None:
@@ -9,20 +9,20 @@ def prettytree(workdir: Path, new: set[Path], modified: set[Path]) -> None:
     while stack:
         path, prefix, is_last = stack.pop()
 
-        marker = symbols.EMPTY
+        marker = const.SYMBOL_EMPTY
         if path in new:
-            marker = symbols.TREE_MARKER_NEW
+            marker = const.TREE_MARKER_NEW
         elif path in modified:
-            marker = symbols.TREE_MARKER_EDIT
+            marker = const.TREE_MARKER_EDIT
 
-        connector = symbols.TREE_LAST if is_last else symbols.TREE_MIDDLE
+        connector = const.TREE_LAST if is_last else const.TREE_MIDDLE
 
-        print(f"{prefix}{connector}{path.name}{symbols.SLASH if path.is_dir() else symbols.EMPTY}{marker}")
+        print(f"{prefix}{connector}{path.name}{const.SYMBOL_SLASH if path.is_dir() else const.SYMBOL_EMPTY}{marker}")
 
         if path.is_dir():
             entries = sorted(path.iterdir(), key=lambda e: (e.is_file(), e.name.lower()))
             total = len(entries)
 
             for i, entry in enumerate(reversed(entries)):
-                new_prefix = prefix + (symbols.TREE_SPACE if is_last else symbols.TREE_BRANCH)
+                new_prefix = prefix + (const.TREE_SPACE if is_last else const.TREE_BRANCH)
                 stack.append((entry, new_prefix, i == total - 1))

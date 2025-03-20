@@ -1,76 +1,66 @@
-from pathlib import Path
-from urllib.parse import urlparse
-
 import typer
 
+from fastgenerator import const
 from fastgenerator import inputs
 from fastgenerator import parsers
-from fastgenerator.const import files
-from fastgenerator.const import syntax
-from fastgenerator.const import texts
 from fastgenerator.os import File
 from fastgenerator.os import Folder
 from fastgenerator.utils import paths
 from fastgenerator.utils import prints
-from fastgenerator.utils import render
+from fastgenerator.utils import strings
 
 app = typer.Typer(help="Fastgenerator")
 
 
 @app.command()
 def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to configuration file")) -> None:
-    if urlparse(file).scheme in ("http", "https"):
-        file = File.download(url=file, extension=files.TOML)
-    else:
-        file = Path(file)
+    file, temp = parsers.getconfig(file)
 
-    variables = parsers.getvariables(file)
-
-    context = inputs.getcontext(keys=list(variables))
+    context = inputs.getcontext(parsers.getvariables(File.read(file, tolist=True)))
 
     if context:
-        confirm = typer.prompt(texts.SPEECHES["continue"], default=texts.YES).lower()
-        if confirm == texts.NO:
-            raise typer.Exit()
+        inputs.iscontinue()
 
-    config = File.toml(file)
+    config = strings.to_toml(File.read(file))
 
-    workdir = paths.define(config.get(syntax.WORKDIR, ""))
+    workdir = paths.define(config.get(const.TAG_WORKDIR, ""))
 
     before = paths.tree(workdir)
 
     modified = set()
 
-    _folders = config.get(syntax.FOLDERS, [])
-    _files = config.get(syntax.FILES, [])
-    _exclude = set(config.get(syntax.EXCLUDE, []))
+    folders = config.get(const.TAG_FOLDERS, [])
+    files = config.get(const.TAG_FILES, [])
+    exclude = set(config.get(const.TAG_EXCLUDE, []))
 
-    for _folder in _folders:
-        _path = workdir / render.loadenv(_folder, context)
-        _pyfile = _path / files.INIT
+    for folder in folders:
+        path = workdir / parsers.replacevariables(folder, context)
+        pyfile = path / const.FILE_PYINIT
+        Folder.create(path)
 
-        Folder.create(_path)
+        if str(pyfile.relative_to(workdir)) not in exclude:
+            File.create(pyfile)
 
-        if str(_pyfile.relative_to(workdir)) not in _exclude:
-            File.create(_pyfile)
+    for f in files:
+        mode = f.get(const.ATTRIBUTE_FILE_MODE, const.FILE_WRITE)
+        path = workdir / parsers.replacevariables(f[const.ATTRIBUTE_FILE_PATH], context)
+        content = parsers.replacevariables(parsers.getcontent(workdir, f[const.ATTRIBUTE_FILE_CONTENT]), context)
 
-    for _file in _files:
-        _path = workdir / render.loadenv(_file[syntax.FILE_PATH], context)
-        _content = render.loadenv(_file[syntax.FILE_CONTENT], context)
-        _mode = _file.get(syntax.FILE_MODE, files.WRITE)
+        if str(path.relative_to(workdir)) not in exclude:
+            File.create(path)
+            File.write(path, content, mode)
 
-        if str(_path.relative_to(workdir)) not in _exclude:
-            File.create(_path)
-            File.write(_path, _content, _mode)
-
-        if _mode == files.APPEND:
-            modified.add(_path)
+        if mode == const.FILE_APPEND:
+            modified.add(path)
 
     after = paths.tree(workdir)
 
     new = (after[0] - before[0]) | (after[1] - before[1])
 
     prints.prettytree(workdir, new, modified)
+
+    if temp:
+        file.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":
