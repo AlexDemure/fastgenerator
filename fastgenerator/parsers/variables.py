@@ -17,12 +17,19 @@ def getvariables(strings: list[str]) -> set:
 
 
 def replacevariables(template: str, context: dict) -> str:
-    def _replace(match) -> str:
+    def replace(match) -> str:
         key, subkey = match.groups()
-        if key in context and subkey in context[key]:
-            return context[key][subkey]
-        elif key in context and subkey is None:
-            return context[key]["original"]
+
+        if key in context:
+            value = context[key]
+
+            if subkey and isinstance(value, dict) and subkey in value:
+                return value[subkey]
+            elif isinstance(value, dict) and "original" in value:
+                return value["original"]
+            elif isinstance(value, str):
+                return value
+
         return match.group(0)
 
-    return re.sub(const.REGEXP_RENDER_TEMPLATE_VARIABLES_PATTERN, _replace, template)
+    return re.sub(const.REGEXP_RENDER_TEMPLATE_VARIABLES_PATTERN, replace, template)

@@ -1,3 +1,6 @@
+import shlex
+import subprocess
+
 import typer
 
 from fastgenerator import const
@@ -16,14 +19,14 @@ app = typer.Typer(help="Fastgenerator")
 def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to configuration file")) -> None:
     file, temp = parsers.getconfig(file)
 
-    context = inputs.getcontext(parsers.getvariables(File.read(file, tolist=True)))
-
-    if context:
-        inputs.iscontinue()
-
     config = strings.to_toml(File.read(file))
 
     workdir = paths.define(config.get(const.TAG_WORKDIR, ""))
+
+    context = inputs.getcontext(keys=parsers.getvariables(File.read(file, tolist=True)), workdir=str(workdir))
+
+    if context:
+        inputs.iscontinue()
 
     before = paths.tree(workdir)
 
@@ -52,6 +55,13 @@ def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to
 
         if mode == const.FILE_APPEND:
             modified.add(path)
+
+    scripts = config.get(const.TAG_SCRIPTS, [])
+
+    for script in scripts:
+        command = parsers.replacevariables(script.get(const.ATTRIBUTE_SCRIPT_COMMAND), context)
+        check = script.get(const.ATTRIBUTE_SCRIPT_CHECK, False)
+        subprocess.run(shlex.split(command), cwd=workdir, text=True, check=check)
 
     after = paths.tree(workdir)
 
