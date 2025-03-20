@@ -8,20 +8,15 @@
   CLI utility for code generation based on a TOML configuration file.
 </p>
 
-----
-
+---
 
 ## Installation
-
----
 
 ```sh
 pip install fastgenerator
 ```
 
 ## Usage
-
----
 
 Run the code generation process:
 
@@ -32,11 +27,10 @@ fastgenerator -f {config.toml}
 
 ## Configuration File Guide
 
----
-
 Fastgenerator uses a structured TOML configuration file to define the project structure, file contents, and commands to execute.
 
 ### General Structure
+
 ```toml
 workdir = "myproject"
 
@@ -60,6 +54,7 @@ check = true
 ```
 
 ### Sections Overview
+
 | Section       | Format                          | Description                                                             |   |   |
 |---------------|---------------------------------|-------------------------------------------------------------------------|---|---|
 | `workdir`     | `""`                            | Uses the current directory                                              |   |   |
@@ -76,12 +71,10 @@ check = true
 |               | `check = True\False"`           | If true, raises an error if the command fails, otherwise logs output.   |   |   |
 
 
-
 ## Using Dynamic Variables
 
----
-
 Fastgenerator supports dynamic variables in both file paths, contents, and script commands.
+
 ```toml
 [[files]]
 path = "src/{{name}}.py"
@@ -93,7 +86,9 @@ if __name__ == '__main__':
     hello()
 """
 ```
+
 ### Supported Variable Formats
+
 When running FastGenerator, it automatically detects placeholders (e.g., {{name}}) and prompts the user to enter values. These variables support multiple case formats:
 
 | Variable Name | Format            | Example Value   |   |   |
@@ -109,9 +104,8 @@ When running FastGenerator, it automatically detects placeholders (e.g., {{name}
 
 ## Automating Post-Generation Tasks
 
----
-
 FastGenerator allows you to execute scripts after generating files. These scripts can perform tasks such as formatting, linting, or additional file modifications.
+
 #### Example
 ```
 [[scripts]]
@@ -122,6 +116,6 @@ check = true
 command = "ruff {{workdir}} --fix"
 check = false
 ```
+
 - Commands support dynamic variables.
 - If check = true, the execution will fail if the command returns a non-zero exit code.
-
