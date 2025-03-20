@@ -1,8 +1,6 @@
 import re
-from pathlib import Path
 
 from fastgenerator import const
-from fastgenerator.os import File
 
 
 def getvariables(strings: list[str]) -> set:
