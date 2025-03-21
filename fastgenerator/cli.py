@@ -17,7 +17,7 @@ app = typer.Typer(help="Fastgenerator")
 
 @app.command()
 def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to configuration file")) -> None:
-    cmd = paths.current()
+    cwd = paths.current()
 
     file, temp = parsers.getconfig(file)
 
@@ -49,7 +49,7 @@ def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to
     for f in files:
         mode = f.get(const.ATTRIBUTE_FILE_MODE, const.FILE_WRITE)
         path = workdir / parsers.replacevariables(f[const.ATTRIBUTE_FILE_PATH], context)
-        content = parsers.replacevariables(parsers.getcontent(cmd, f[const.ATTRIBUTE_FILE_CONTENT]), context)
+        content = parsers.replacevariables(parsers.getcontent(cwd, f[const.ATTRIBUTE_FILE_CONTENT]), context)
 
         if str(path.relative_to(workdir)) not in exclude:
             File.create(path)
