@@ -2,13 +2,17 @@ import os
 from pathlib import Path
 
 
+def current() -> Path:
+    return Path.cwd()
+
+
 def define(workdir: str | None = None) -> Path:
     if not workdir:
-        return Path.cwd()
+        return current()
     elif workdir.startswith("/"):
         return Path(workdir)
     else:
-        return Path.cwd() / workdir
+        return current() / workdir
 
 
 def tree(workdir: Path | str) -> tuple[set[Path], set[Path]]:
