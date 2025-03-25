@@ -1,10 +1,9 @@
 import shlex
 import subprocess
-
+import json
 import typer
-
+from jinja2 import Template
 from fastgenerator import const
-from fastgenerator import inputs
 from fastgenerator import parsers
 from fastgenerator.os import File
 from fastgenerator.os import Folder
@@ -16,7 +15,10 @@ app = typer.Typer(help="Fastgenerator")
 
 
 @app.command()
-def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to configuration file")) -> None:
+def generate(
+    file: str = typer.Option(..., "-f", "--file", help="Path or link to configuration file"),
+    context: str = typer.Option("{}", "-c", "--context", help="JSON context for templates")
+) -> None:
     cwd = paths.current()
 
     file, temp = parsers.getconfig(file)
@@ -25,10 +27,7 @@ def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to
 
     workdir = paths.define(config.get(const.TAG_WORKDIR, ""))
 
-    context = inputs.getcontext(keys=parsers.getvariables(File.read(file, tolist=True)), workdir=str(workdir))
-
-    if context:
-        inputs.iscontinue()
+    context = json.loads(context)
 
     before = paths.tree(workdir)
 
@@ -39,7 +38,7 @@ def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to
     exclude = set(config.get(const.TAG_EXCLUDE, []))
 
     for folder in folders:
-        path = workdir / parsers.replacevariables(folder, context)
+        path = workdir / Template(folder).render(context)
         pyfile = path / const.FILE_PYINIT
         Folder.create(path)
 
@@ -48,8 +47,8 @@ def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to
 
     for f in files:
         mode = f.get(const.ATTRIBUTE_FILE_MODE, const.FILE_WRITE)
-        path = workdir / parsers.replacevariables(f[const.ATTRIBUTE_FILE_PATH], context)
-        content = parsers.replacevariables(parsers.getcontent(cwd, f[const.ATTRIBUTE_FILE_CONTENT]), context)
+        path = workdir / Template(f[const.ATTRIBUTE_FILE_PATH]).render(context)
+        content = Template(parsers.getcontent(cwd, f[const.ATTRIBUTE_FILE_CONTENT])).render(context)
 
         if str(path.relative_to(workdir)) not in exclude:
             File.create(path)
@@ -61,7 +60,7 @@ def generate(file: str = typer.Option(..., "-f", "--file", help="Path or link to
     scripts = config.get(const.TAG_SCRIPTS, [])
 
     for script in scripts:
-        command = parsers.replacevariables(script.get(const.ATTRIBUTE_SCRIPT_COMMAND), context)
+        command = Template(script.get(const.ATTRIBUTE_SCRIPT_COMMAND)).render(context)
         check = script.get(const.ATTRIBUTE_SCRIPT_CHECK, False)
         subprocess.run(shlex.split(command), cwd=workdir, text=True, check=check)
 

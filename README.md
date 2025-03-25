@@ -12,7 +12,7 @@
 
 ## Installation
 
-```sh
+```
 pip install fastgenerator
 ```
 
@@ -21,7 +21,7 @@ pip install fastgenerator
 Run the code generation process:
 
 ```sh
-fastgenerator -f {config.toml}
+fastgenerator --file {config.toml} --context "{}"
 ```
 
 
@@ -31,7 +31,7 @@ Fastgenerator uses a structured TOML configuration file to define the project st
 
 ### General Structure
 
-```toml
+```
 workdir = "myproject"
 
 folders = []
@@ -86,21 +86,6 @@ if __name__ == '__main__':
     hello()
 """
 ```
-
-### Supported Variable Formats
-
-When running FastGenerator, it automatically detects placeholders (e.g., {{name}}) and prompts the user to enter values. These variables support multiple case formats:
-
-| Variable Name | Format            | Example Value   |   |   |
-|---------------|-------------------|-----------------|---|---|
-| workdir       |                   | /home/myproject |   |   |
-| `name`        | `{{name}}`        | user            |   |   |
-|               | `{{name.lower}}`  | user            |   |   |
-|               | `{{name.upper}}`  | USER            |   |   |
-|               | `{{name.title}}`  | User            |   |   |
-|               | `{{name.snake}}`  | user            |   |   |
-|               | `{{name.kebab}}`  | user            |   |   |
-|               | `{{name.pascal}}` | User            |   |   |
 
 ## Automating Post-Generation Tasks
 
