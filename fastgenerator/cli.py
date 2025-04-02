@@ -1,8 +1,10 @@
+import json
 import shlex
 import subprocess
-import json
+
 import typer
 from jinja2 import Template
+
 from fastgenerator import const
 from fastgenerator import parsers
 from fastgenerator.os import File
@@ -17,15 +19,15 @@ app = typer.Typer(help="Fastgenerator")
 @app.command()
 def generate(
     file: str = typer.Option(..., "-f", "--file", help="Path or link to configuration file"),
-    context: str = typer.Option("{}", "-c", "--context", help="JSON context for templates")
+    context: str = typer.Option("{}", "-c", "--context", help="JSON context for templates"),
 ) -> None:
     cwd = paths.current()
 
-    file, temp = parsers.getconfig(file)
+    file, buffer = parsers.getconfig(file)
 
     config = strings.to_toml(File.read(file))
 
-    workdir = paths.define(config.get(const.TAG_WORKDIR, ""))
+    workdir = paths.define(config.get(const.SYNTAX_WORKDIR))
 
     context = json.loads(context)
 
@@ -33,22 +35,22 @@ def generate(
 
     modified = set()
 
-    folders = config.get(const.TAG_FOLDERS, [])
-    files = config.get(const.TAG_FILES, [])
-    exclude = set(config.get(const.TAG_EXCLUDE, []))
+    folders = config.get(const.SYNTAX_FOLDERS, [])
+    files = config.get(const.SYNTAX_FILES, [])
+    exclude = set(config.get(const.SYNTAX_EXCLUDE, []))
 
     for folder in folders:
         path = workdir / Template(folder).render(context)
-        pyfile = path / const.FILE_PYINIT
+        pyfile = path / const.PYTHON_INIT
         Folder.create(path)
 
         if str(pyfile.relative_to(workdir)) not in exclude:
             File.create(pyfile)
 
     for f in files:
-        mode = f.get(const.ATTRIBUTE_FILE_MODE, const.FILE_WRITE)
-        path = workdir / Template(f[const.ATTRIBUTE_FILE_PATH]).render(context)
-        content = Template(parsers.getcontent(cwd, f[const.ATTRIBUTE_FILE_CONTENT])).render(context)
+        mode = f.get(const.SYNTAX_FILES_MODE, const.FILE_WRITE)
+        path = workdir / Template(f[const.SYNTAX_FILES_PATH]).render(context)
+        content = Template(parsers.getcontent(cwd, f[const.SYNTAX_FILES_CONTENT])).render(context)
 
         if str(path.relative_to(workdir)) not in exclude:
             File.create(path)
@@ -57,11 +59,11 @@ def generate(
         if mode == const.FILE_APPEND:
             modified.add(path)
 
-    scripts = config.get(const.TAG_SCRIPTS, [])
+    scripts = config.get(const.SYNTAX_SCRIPTS, [])
 
     for script in scripts:
-        command = Template(script.get(const.ATTRIBUTE_SCRIPT_COMMAND)).render(context)
-        check = script.get(const.ATTRIBUTE_SCRIPT_CHECK, False)
+        command = Template(script.get(const.SYNTAX_SCRIPTS_COMMAND)).render(context)
+        check = script.get(const.SYNTAX_SCRIPTS_CHECK, False)
         subprocess.run(shlex.split(command), cwd=workdir, text=True, check=check)
 
     after = paths.tree(workdir)
@@ -70,7 +72,7 @@ def generate(
 
     prints.prettytree(workdir, new, modified)
 
-    if temp:
+    if buffer:
         file.unlink(missing_ok=True)
 
 

@@ -18,7 +18,7 @@ class File:
         cls.create(path)
 
         with path.open(mode=mode, encoding=const.FILE_ENCODING) as f:
-            f.write(content)
+            f.write(const.SYMBOL_NEWLINE + content if mode == const.FILE_APPEND else content)
 
         with path.open(mode=const.FILE_READ, encoding=const.FILE_ENCODING) as f:
             content = strings.sortimports(f.readlines())
@@ -27,6 +27,6 @@ class File:
             f.write(content)
 
     @classmethod
-    def read(cls, path: Path, tolist: bool = False) -> list[str] | str:
-        with path.open(mode=const.FILE_READ, encoding=const.FILE_ENCODING) as f:
+    def read(cls, path: Path, tolist: bool = False, mode: str = const.FILE_READ) -> str | list[str]:
+        with path.open(mode=mode, encoding=const.FILE_ENCODING) as f:
             return f.readlines() if tolist else f.read()

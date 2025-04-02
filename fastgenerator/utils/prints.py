@@ -4,7 +4,7 @@ from fastgenerator import const
 
 
 def prettytree(workdir: Path, new: set[Path], modified: set[Path]) -> None:
-    stack = [(workdir, "", False)]
+    stack = [(workdir, const.SYMBOL_EMPTY, False)]
 
     while stack:
         path, prefix, is_last = stack.pop()
@@ -17,7 +17,9 @@ def prettytree(workdir: Path, new: set[Path], modified: set[Path]) -> None:
 
         connector = const.TREE_LAST if is_last else const.TREE_MIDDLE
 
-        print(f"{prefix}{connector}{path.name}{const.SYMBOL_SLASH if path.is_dir() else const.SYMBOL_EMPTY}{marker}")
+        print(
+            f"{prefix}{connector}{path.name}{const.SYMBOL_FORWARD_SLASH if path.is_dir() else const.SYMBOL_EMPTY}{marker}"
+        )
 
         if path.is_dir():
             entries = sorted(path.iterdir(), key=lambda e: (e.is_file(), e.name.lower()))

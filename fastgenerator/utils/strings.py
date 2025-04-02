@@ -41,18 +41,6 @@ def to_pascal(value: str) -> str:
     return concat(words=[to_capitalize(word) for word in separate(value)], symbol=const.SYMBOL_EMPTY)
 
 
-def to_cases(value: str) -> dict:
-    return {
-        "original": value,
-        "lower": to_lower(value),
-        "upper": to_upper(value),
-        "title": to_title(value),
-        "snake": to_snake(value),
-        "kebab": to_kebab(value),
-        "pascal": to_pascal(value),
-    }
-
-
 def to_toml(content: str) -> dict:
     return tomli.loads(content)
 
@@ -61,4 +49,4 @@ def sortimports(lines: list[str]) -> str:
     imports, code = [], []
     for line in lines:
         (imports if re.match(const.REGEXP_IMPORT_PATTERN, line) else code).append(line)
-    return "".join(sorted(imports) + code)
+    return const.SYMBOL_EMPTY.join(sorted(imports) + code)

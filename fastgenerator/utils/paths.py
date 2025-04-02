@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+from fastgenerator import const
+
 
 def current() -> Path:
     return Path.cwd()
@@ -9,7 +11,7 @@ def current() -> Path:
 def define(workdir: str | None = None) -> Path:
     if not workdir:
         return current()
-    elif workdir.startswith("/"):
+    elif workdir.startswith(const.SYMBOL_FORWARD_SLASH):
         return Path(workdir)
     else:
         return current() / workdir
@@ -24,7 +26,7 @@ def tree(workdir: Path | str) -> tuple[set[Path], set[Path]]:
     for path, _, filenames in os.walk(workdir):
         path = Path(path)
 
-        if path.name.startswith("."):
+        if path.name.startswith(const.SYMBOL_DOT):
             continue
 
         folders.add(path)

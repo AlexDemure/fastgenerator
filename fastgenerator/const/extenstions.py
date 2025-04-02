@@ -1,0 +1,1 @@
+EXTENSION_TOML = ".toml"
