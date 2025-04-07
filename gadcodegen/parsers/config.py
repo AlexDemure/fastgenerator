@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from fastgenerator import const
-from fastgenerator.os import HTTP
-from fastgenerator.os import File
-from fastgenerator.utils import temp
-from fastgenerator.utils import urls
+from gadcodegen import const
+from gadcodegen.os import HTTP
+from gadcodegen.os import File
+from gadcodegen.utils import temp
+from gadcodegen.utils import urls
 
 
 def getconfig(file: str) -> tuple[Path, bool]:

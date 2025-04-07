@@ -2,7 +2,7 @@ import re
 
 import tomli
 
-from fastgenerator import const
+from gadcodegen import const
 
 
 def separate(value: str) -> list[str]:

@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://github.com/AlexDemure/fastgenerator">
-    <a href="https://ibb.co/23v8Qx04"><img src="https://i.ibb.co/fdk85fVw/Frame-1349.png" alt="Frame-1349" border="0" /></a>
+  <a href="https://github.com/AlexDemure/gadcodegen">
+    <a href="https://ibb.co/hJ6ctJvZ"><img src="https://i.ibb.co/zTMF0Tw7/logo.png" alt="logo" border="0"></a>
   </a>
 </p>
 
@@ -13,7 +13,7 @@
 ## Installation
 
 ```
-pip install fastgenerator
+pip install gadcodegen
 ```
 
 ## Usage
@@ -21,13 +21,13 @@ pip install fastgenerator
 Run the code generation process:
 
 ```sh
-fastgenerator --file {config.toml} --context "{}"
+gadcodegen --file {config.toml} --context "{}"
 ```
 
 
 ## Configuration File Guide
 
-Fastgenerator uses a structured TOML configuration file to define the project structure, file contents, and commands to execute.
+gadcodegen uses a structured TOML configuration file to define the project structure, file contents, and commands to execute.
 
 ### General Structure
 
@@ -73,7 +73,7 @@ check = true
 
 ## Using Dynamic Variables
 
-Fastgenerator supports dynamic variables in both file paths, contents, and script commands.
+gadcodegen supports dynamic variables in both file paths, contents, and script commands.
 
 ```toml
 [[files]]
@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
 ## Automating Post-Generation Tasks
 
-FastGenerator allows you to execute scripts after generating files. These scripts can perform tasks such as formatting, linting, or additional file modifications.
+gadcodegen allows you to execute scripts after generating files. These scripts can perform tasks such as formatting, linting, or additional file modifications.
 
 #### Example
 ```

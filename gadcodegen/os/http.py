@@ -1,6 +1,6 @@
 import urllib.request
 
-from fastgenerator import const
+from gadcodegen import const
 
 
 class HTTP:

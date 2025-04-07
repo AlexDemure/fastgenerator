@@ -5,15 +5,15 @@ import subprocess
 import typer
 from jinja2 import Template
 
-from fastgenerator import const
-from fastgenerator import parsers
-from fastgenerator.os import File
-from fastgenerator.os import Folder
-from fastgenerator.utils import paths
-from fastgenerator.utils import prints
-from fastgenerator.utils import strings
+from gadcodegen import const
+from gadcodegen import parsers
+from gadcodegen.os import File
+from gadcodegen.os import Folder
+from gadcodegen.utils import paths
+from gadcodegen.utils import prints
+from gadcodegen.utils import strings
 
-app = typer.Typer(help="Fastgenerator")
+app = typer.Typer(help="gadcodegen")
 
 
 @app.command()

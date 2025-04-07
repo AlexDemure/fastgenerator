@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from fastgenerator import const
+from gadcodegen import const
 
 
 def current() -> Path:

@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from fastgenerator import const
-from fastgenerator.utils import strings
+from gadcodegen import const
+from gadcodegen.utils import strings
 
 
 class File:

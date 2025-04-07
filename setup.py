@@ -4,13 +4,13 @@ with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
 setup(
-    name="fastgenerator",
-    version="0.0.8",
+    name="gadcodegen",
+    version="0.0.1",
     packages=find_packages(),
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "fastgenerator=fastgenerator.cli:app",
+            "gadcodegen=gadcodegen.cli:app",
         ],
     },
     author="Alexander Grishchenko",
@@ -18,7 +18,7 @@ setup(
     description="A fast code generator CLI tool",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/AlexDemure/fastgenerator",
+    url="https://github.com/AlexDemure/gadcodegen",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

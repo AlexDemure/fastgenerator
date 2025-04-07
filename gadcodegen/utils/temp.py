@@ -1,7 +1,7 @@
 import tempfile
 from pathlib import Path
 
-from fastgenerator import const
+from gadcodegen import const
 
 
 def getfile(content: str, extension: str) -> Path:
