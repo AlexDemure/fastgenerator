@@ -1,4 +1,4 @@
-from pathlib import Path
+import pathlib
 
 from gadcodegen import const
 from gadcodegen.utils import sorting
@@ -6,7 +6,7 @@ from gadcodegen.utils import sorting
 
 class File:
     @classmethod
-    def create(cls, path: Path) -> None:
+    def create(cls, path: pathlib.Path) -> None:
         if not path.parent.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -14,7 +14,7 @@ class File:
             path.touch()
 
     @classmethod
-    def write(cls, path: Path, content: str, mode: str = const.FILE_WRITE) -> None:
+    def write(cls, path: pathlib.Path, content: str, mode: str = const.FILE_WRITE) -> None:
         cls.create(path)
 
         with path.open(mode=mode, encoding=const.FILE_ENCODING) as f:
@@ -27,6 +27,6 @@ class File:
             f.write(content)
 
     @classmethod
-    def read(cls, path: Path, tolist: bool = False, mode: str = const.FILE_READ) -> str | list[str]:
+    def read(cls, path: pathlib.Path, tolist: bool = False, mode: str = const.FILE_READ) -> str | list[str]:
         with path.open(mode=mode, encoding=const.FILE_ENCODING) as f:
             return f.readlines() if tolist else f.read()

@@ -1,9 +1,9 @@
-from pathlib import Path
+import pathlib
 
 from gadcodegen import const
 
 
-def prettytree(workdir: Path, new: set[Path], modified: set[Path]) -> None:
+def prettytree(workdir: pathlib.Path, new: set[pathlib.Path], modified: set[pathlib.Path]) -> None:
     stack = [(workdir, const.SYMBOL_EMPTY, False)]
 
     while stack:

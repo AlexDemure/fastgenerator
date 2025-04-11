@@ -1,19 +1,19 @@
 import os
-from pathlib import Path
+import pathlib
 
 from gadify.paths import *
 
 from gadcodegen import const
 
 
-def tree(workdir: Path | str) -> tuple[set[Path], set[Path]]:
+def tree(workdir: pathlib.Path | str) -> tuple[set[pathlib.Path], set[pathlib.Path]]:
     if isinstance(workdir, str):
         workdir = define(workdir)
 
     folders, files = set(), set()
 
     for path, _, filenames in os.walk(workdir):
-        path = Path(path)
+        path = pathlib.Path(path)
 
         if path.name.startswith(const.SYMBOL_DOT):
             continue

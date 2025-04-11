@@ -1,9 +1,9 @@
-from pathlib import Path
+import pathlib
 
 
 class Folder:
     @classmethod
-    def create(cls, path: Path) -> None:
+    def create(cls, path: pathlib.Path) -> None:
         if not path.parent.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
 

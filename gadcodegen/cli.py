@@ -2,8 +2,8 @@ import json
 import shlex
 import subprocess
 
+import jinja2
 import typer
-from jinja2 import Template
 
 from gadcodegen import const
 from gadcodegen import parsers
@@ -40,7 +40,7 @@ def generate(
     exclude = set(config.get(const.SYNTAX_EXCLUDE, []))
 
     for folder in folders:
-        path = workdir / Template(folder).render(context)
+        path = workdir / jinja2.Template(folder).render(context)
         pyfile = path / const.PYTHON_INIT
         Folder.create(path)
 
@@ -49,8 +49,8 @@ def generate(
 
     for f in files:
         mode = f.get(const.SYNTAX_FILES_MODE, const.FILE_WRITE)
-        path = workdir / Template(f[const.SYNTAX_FILES_PATH]).render(context)
-        content = Template(parsers.getcontent(cwd, f[const.SYNTAX_FILES_CONTENT])).render(context)
+        path = workdir / jinja2.Template(f[const.SYNTAX_FILES_PATH]).render(context)
+        content = jinja2.Template(parsers.getcontent(cwd, f[const.SYNTAX_FILES_CONTENT])).render(context)
 
         if str(path.relative_to(workdir)) not in exclude:
             File.create(path)
@@ -62,7 +62,7 @@ def generate(
     scripts = config.get(const.SYNTAX_SCRIPTS, [])
 
     for script in scripts:
-        command = Template(script.get(const.SYNTAX_SCRIPTS_COMMAND)).render(context)
+        command = jinja2.Template(script.get(const.SYNTAX_SCRIPTS_COMMAND)).render(context)
         check = script.get(const.SYNTAX_SCRIPTS_CHECK, False)
         subprocess.run(shlex.split(command), cwd=workdir, text=True, check=check)
 
