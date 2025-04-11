@@ -1,20 +1,9 @@
 import os
 from pathlib import Path
 
+from gadify.paths import *
+
 from gadcodegen import const
-
-
-def current() -> Path:
-    return Path.cwd()
-
-
-def define(workdir: str | None = None) -> Path:
-    if not workdir:
-        return current()
-    elif workdir.startswith(const.SYMBOL_FORWARD_SLASH):
-        return Path(workdir)
-    else:
-        return current() / workdir
 
 
 def tree(workdir: Path | str) -> tuple[set[Path], set[Path]]:

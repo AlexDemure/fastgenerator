@@ -1,10 +1,11 @@
 from pathlib import Path
 
+from gadify import temp
+from gadify import urls
+
 from gadcodegen import const
 from gadcodegen.os import HTTP
 from gadcodegen.os import File
-from gadcodegen.utils import temp
-from gadcodegen.utils import urls
 
 
 def getconfig(file: str) -> tuple[Path, bool]:

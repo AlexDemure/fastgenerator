@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from gadcodegen import const
-from gadcodegen.utils import strings
+from gadcodegen.utils import sorting
 
 
 class File:
@@ -21,7 +21,7 @@ class File:
             f.write(const.SYMBOL_NEWLINE + content if mode == const.FILE_APPEND else content)
 
         with path.open(mode=const.FILE_READ, encoding=const.FILE_ENCODING) as f:
-            content = strings.sortimports(f.readlines())
+            content = sorting.sortimports(f.readlines())
 
         with path.open(mode=const.FILE_WRITE, encoding=const.FILE_ENCODING) as f:
             f.write(content)

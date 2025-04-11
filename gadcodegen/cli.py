@@ -11,7 +11,7 @@ from gadcodegen.os import File
 from gadcodegen.os import Folder
 from gadcodegen.utils import paths
 from gadcodegen.utils import prints
-from gadcodegen.utils import strings
+from gadcodegen.utils import toml
 
 app = typer.Typer(help="gadcodegen")
 
@@ -25,7 +25,7 @@ def generate(
 
     file, buffer = parsers.getconfig(file)
 
-    config = strings.to_toml(File.read(file))
+    config = toml.todict(File.read(file))
 
     workdir = paths.define(config.get(const.SYNTAX_WORKDIR))
 
