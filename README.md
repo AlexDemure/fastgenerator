@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/AlexDemure/gadcodegen">
+  <a href="https://github.com/AlexDemure/gadcodegenerator">
     <a href="https://ibb.co/zh4fmG39"><img src="https://i.ibb.co/xS752Jn9/logo.png" alt="logo" border="0"></a>
   </a>
 </p>
@@ -13,13 +13,13 @@
 ## Installation
 
 ```
-pip install gadcodegen
+pip install gadcodegenerator
 ```
 
 ## Usage
 
 ```sh
-gadcodegen --file {config.toml} --context "{}"
+gadcodegenerator --file {config.toml} --context "{}"
 ```
 
 ### General Structure

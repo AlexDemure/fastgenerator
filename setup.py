@@ -4,13 +4,13 @@ with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
 setup(
-    name="gadcodegen",
+    name="gadcodegenerator",
     version="0.0.1",
     packages=find_packages(),
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "gadcodegen=gadcodegen.cli:app",
+            "gadcodegenerator=gadcodegenerator.cli:app",
         ],
     },
     author="Alexander Grishchenko",
@@ -18,7 +18,7 @@ setup(
     description="A fast code generator CLI tool",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/AlexDemure/gadcodegen",
+    url="https://github.com/AlexDemure/gadcodegenerator",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

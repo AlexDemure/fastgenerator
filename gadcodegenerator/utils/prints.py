@@ -1,6 +1,6 @@
 import pathlib
 
-from gadcodegen import const
+from gadcodegenerator import const
 
 
 def prettytree(workdir: pathlib.Path, new: set[pathlib.Path], modified: set[pathlib.Path]) -> None:

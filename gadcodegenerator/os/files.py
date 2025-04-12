@@ -1,7 +1,7 @@
 import pathlib
 
-from gadcodegen import const
-from gadcodegen.utils import sorting
+from gadcodegenerator import const
+from gadcodegenerator.utils import sorting
 
 
 class File:

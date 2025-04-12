@@ -3,7 +3,7 @@ import pathlib
 
 from gadutils.paths import *
 
-from gadcodegen import const
+from gadcodegenerator import const
 
 
 def tree(workdir: pathlib.Path | str) -> tuple[set[pathlib.Path], set[pathlib.Path]]:

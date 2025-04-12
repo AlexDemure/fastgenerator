@@ -1,6 +1,6 @@
 import urllib.request
 
-from gadcodegen import const
+from gadcodegenerator import const
 
 
 class HTTP:

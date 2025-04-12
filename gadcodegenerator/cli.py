@@ -5,15 +5,15 @@ import subprocess
 import jinja2
 import typer
 
-from gadcodegen import const
-from gadcodegen import parsers
-from gadcodegen.os import File
-from gadcodegen.os import Folder
-from gadcodegen.utils import paths
-from gadcodegen.utils import prints
-from gadcodegen.utils import toml
+from gadcodegenerator import const
+from gadcodegenerator import parsers
+from gadcodegenerator.os import File
+from gadcodegenerator.os import Folder
+from gadcodegenerator.utils import paths
+from gadcodegenerator.utils import prints
+from gadcodegenerator.utils import toml
 
-app = typer.Typer(help="gadcodegen")
+app = typer.Typer(help="gadcodegenerator")
 
 
 @app.command()

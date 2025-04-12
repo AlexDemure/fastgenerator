@@ -1,6 +1,6 @@
 import re
 
-from gadcodegen import const
+from gadcodegenerator import const
 
 
 def sortimports(lines: list[str]) -> str:

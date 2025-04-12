@@ -1,3 +1,3 @@
-isort gadcodegen/
-ruff format gadcodegen/ --no-cache
+isort gadcodegenerator/
+ruff format gadcodegenerator/ --no-cache
 
