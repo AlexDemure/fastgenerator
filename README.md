@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/AlexDemure/gadcodegen">
-    <a href="https://ibb.co/hJ6ctJvZ"><img src="https://i.ibb.co/zTMF0Tw7/logo.png" alt="logo" border="0"></a>
+    <a href="https://ibb.co/zh4fmG39"><img src="https://i.ibb.co/xS752Jn9/logo.png" alt="logo" border="0"></a>
   </a>
 </p>
 
@@ -18,16 +18,9 @@ pip install gadcodegen
 
 ## Usage
 
-Run the code generation process:
-
 ```sh
 gadcodegen --file {config.toml} --context "{}"
 ```
-
-
-## Configuration File Guide
-
-gadcodegen uses a structured TOML configuration file to define the project structure, file contents, and commands to execute.
 
 ### General Structure
 
@@ -69,38 +62,3 @@ check = true
 | `[[scripts]]` |                                 | Defines commands to be executed after generation.                       |   |   |
 |               | `command = "isort {{workdir}}"` | Command to execute, supports dynamic variables.                         |   |   |
 |               | `check = True\False"`           | If true, raises an error if the command fails, otherwise logs output.   |   |   |
-
-
-## Using Dynamic Variables
-
-gadcodegen supports dynamic variables in both file paths, contents, and script commands.
-
-```toml
-[[files]]
-path = "src/{{name}}.py"
-content = """
-def hello():
-    print("Hello, {{name}}!")
-
-if __name__ == '__main__':
-    hello()
-"""
-```
-
-## Automating Post-Generation Tasks
-
-gadcodegen allows you to execute scripts after generating files. These scripts can perform tasks such as formatting, linting, or additional file modifications.
-
-#### Example
-```
-[[scripts]]
-command = "isort {{workdir}}"
-check = true
-
-[[scripts]]
-command = "ruff {{workdir}} --fix"
-check = false
-```
-
-- Commands support dynamic variables.
-- If check = true, the execution will fail if the command returns a non-zero exit code.
