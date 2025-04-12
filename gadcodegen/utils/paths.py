@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from gadify.paths import *
+from gadutils.paths import *
 
 from gadcodegen import const
 

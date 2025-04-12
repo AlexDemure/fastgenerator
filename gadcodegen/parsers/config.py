@@ -1,7 +1,7 @@
 import pathlib
 
-from gadify import temp
-from gadify import urls
+from gadutils import temp
+from gadutils import urls
 
 from gadcodegen import const
 from gadcodegen.os import HTTP
