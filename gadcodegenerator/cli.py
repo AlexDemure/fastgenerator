@@ -4,7 +4,6 @@ import subprocess
 
 import jinja2
 import typer
-
 from gadcodegenerator import const
 from gadcodegenerator import parsers
 from gadcodegenerator.os import File
